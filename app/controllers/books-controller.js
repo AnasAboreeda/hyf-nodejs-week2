@@ -8,7 +8,7 @@ export const readAll = (req, res) => {
 };
 
 export const readOne = (req, res) => {
-  const foundBooks = books.find((book) => book.id === req.params.id);
+  const foundBooks = books.find((book) => book.id = req.params.id);
 
   if (foundBooks) {
     res.status(200).json(foundBooks).end();
@@ -18,6 +18,11 @@ export const readOne = (req, res) => {
 };
 
 export const create = (req, res) => {
+  if (req.header.authenticated) {
+    res.status(403).end('unauthorized');
+  }
+
+
   const newBook = req.body;
   if (isValid(newBook)) {
     newBook.id = uuidv4();
@@ -29,6 +34,7 @@ export const create = (req, res) => {
 };
 
 export const update = (req, res) => {
+
   const updatedBook = req.body;
   if (isValid(updatedBook)) {
     const existingBook = books.find((book) => book.id == req.params.id);

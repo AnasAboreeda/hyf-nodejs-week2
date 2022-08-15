@@ -8,6 +8,13 @@ export const isValid = (book) => {
 const getTime = () => new Date().toISOString().replace('T', ' ').substr(0, 19);
 
 export const loggerMiddleware = (req, res, next) => {
-  console.log(`[${getTime()}] [${req.method}] ${req.url} `);
+  console.log(`[${getTime()}] [${req.method}] ${req.url} ${JSON.stringify(req.body, null, 2)}`);
+  next();
+};
+
+export const authenticateMiddleware = (req, res, next) => {
+  if (req.header.clientID === 'HYF') {
+    req.header.authenticated = true; // secret word
+  }
   next();
 };
